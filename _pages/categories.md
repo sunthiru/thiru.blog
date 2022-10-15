@@ -7,9 +7,9 @@ title: மேற்கோள்கள்
 
 <div id="archives">
 {% for category in site.categories %}
-  {% if category != '_pages' %}
+  {% capture category_name %}{{ category | first }}{% endcapture %}
+  {% if category_name != '_pages' %}
     <div class="archive-group">
-      {% capture category_name %}{{ category | first }}{% endcapture %}
       <div id="#{{ category_name | slugize }}"></div>
       <p></p>
     
