@@ -1,7 +1,7 @@
 ---
 layout: page
 permalink: /categories/
-title: Categories
+title: மேற்கோள்கள்
 ---
 
 
