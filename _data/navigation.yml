@@ -1,0 +1,9 @@
+main:
+  - title: "தொகுப்பு"
+    url: /posts/
+  - title: "குறிச்சொற்கள்"
+    url: /tags/
+  - title: "நிதிச் சுதந்திரம்"
+    url: /finfreedom/
+  - title: "அறிமுகம்"
+    url: /about/
