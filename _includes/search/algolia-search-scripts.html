@@ -1,0 +1,89 @@
+<!-- Including InstantSearch.js library and styling -->
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.7.6/dist/instantsearch.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.7.6/dist/instantsearch.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.7.6/dist/instantsearch-theme-algolia.min.css">
+
+<script>
+// Instanciating InstantSearch.js with Algolia credentials
+const search = instantsearch({
+  appId: '{{ site.algolia.application_id }}',
+  apiKey: '{{ site.algolia.search_only_api_key }}',
+  indexName: '{{ site.algolia.index_name }}',
+  searchParameters: {
+    hitsPerPage: 5,
+    restrictSearchableAttributes: [
+      'title',
+      'content'
+    ]
+  },
+  searchFunction: function (helper) {
+    if (helper.state.query.length < 5) {
+      $(".search-hits").hide();
+      $(".ais-search-box--reset-wrapper").css("display", "none");
+      if (helper.state.query.length == 0) {
+        $(".ais-search-box--input").val('');
+        $(".ais-search-box--input").focus();
+      }
+      return;
+    }
+    $(".search-hits").show();
+    helper.search();
+  }
+});
+
+const hitTemplate = function(hit) {
+  const url = hit.url;
+  const hightlight = hit._highlightResult;
+  const title = hightlight.title && hightlight.title.value  || "";
+  const content = hightlight.html && hightlight.html.value  || "";
+
+  return `
+    <div class="list__item">
+      <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+        <h2 class="archive__item-title" itemprop="headline"><a href="{{ site.baseurl }}${url}">${title}</a></h2>
+        <div class="archive__item-excerpt" itemprop="description">${content}</div>
+      </article>
+    </div>
+  `;
+}
+
+let timerId;
+
+// Adding searchbar and results widgets
+search.addWidget(
+  instantsearch.widgets.searchBox({
+    container: '.search-searchbar',
+    {% unless site.algolia.powered_by == false %}poweredBy: true,{% endunless %}
+    placeholder: '{{ site.data.ui-text[site.locale].search_placeholder_text | default: "Enter your search term..." }}',
+    searchOnEnterKeyPressOnly: true,
+    queryHook(query, refine) {
+      if (timerId != null || timerId != undefined) {
+        clearTimeout(timerId);
+      }
+      if (query.length <5) {
+        $(".search-hits").hide();
+        return '';
+      }
+      timerId = setTimeout(() => refine(query), 1000);
+    },
+  })
+);
+search.addWidget(
+  instantsearch.widgets.hits({
+    container: '.search-hits',
+    templates: {
+      item: hitTemplate,
+      empty: '{{ site.data.ui-text[site.locale].search_algolia_no_results | default: "No results" }}',
+    }
+  })
+);
+
+// Starting the search only when toggle is clicked
+$(document).ready(function () {
+  $(".search__toggle").on("click", function() {
+    if(!search.started) {
+      search.start();
+    }
+  });
+});
+</script>
