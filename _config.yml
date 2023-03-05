@@ -26,7 +26,7 @@ remote_theme: mmistakes/minimal-mistakes
 permalink: /:categories/:title/
 paginate: 5 # amount of posts to show
 paginate_path: /page:num/
-logo: "/assets/images/logo.svg"
+logo: "/assets/images/logo.png"
 timezone: Asia/Calcutta
 locale: ta-IN
 # breadcrumbs: true
