@@ -2,7 +2,7 @@ title: திருவேங்கடம்
 # subtitle: "Version 2.0"
 title_separator: "|"
 name: "திருவேங்கடம் சத்தியசீலன்"
-email: thiru.dev@hotmail.com
+email: thiru.blog@outlook.com
 description: >- # this means to ignore newlines until "baseurl:".
 url: https://thiru.blog
 # baseurl: /
@@ -64,7 +64,7 @@ author:
   links:
     - label: "மின்னஞ்சல்"
       icon: "far fa-envelope"
-      url: "mailto:thiru.dev@hotmail.com"
+      url: "mailto:thiru.blog@outlook.com"
 
 # Collections
 collections:
